@@ -24,12 +24,12 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(24)
+    jvmToolchain(21)
 }
 
 compose.desktop {
     application {
-        mainClass = "com.melancholicbastard.MainKt" // Укажите путь к вашей функции main, например, "com.yourcompany.MainKt"
+        mainClass = "com.melancholicbastard.vfsconsole.MainKt" // Укажите путь к вашей функции main, например, "com.yourcompany.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Rpm)
             packageName = "VFSConsole"
@@ -40,4 +40,17 @@ compose.desktop {
 
 tasks.withType<JavaExec> {
     jvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
+}
+
+tasks.register<JavaExec>("runWithScript") {
+    group = "application"
+    description = "Run the application with script arguments"
+
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "com.melancholicbastard.vfsconsole.MainKt"
+
+//    workingDir = file("src/main/resources")
+
+//     Аргументы командной строки
+    args = listOf("--script", "src/main/resources/test_script.vfs", "--vfs-path", "Console/")
 }

@@ -3,7 +3,7 @@ package com.melancholicbastard.vfsconsole
 class CommandParser {
 
     fun parse(input: String): List<String> {
-        // Разбиваем по регулярному выражению "\\s+" (один или более пробельных символов) и фильтруем пустые строки
+//         Разбиваем по регулярному выражению "\\s+" (один или более пробельных символов) и фильтруем пустые строки
         return input.trim().split("\\s+".toRegex()).filter { it.isNotBlank() }
     }
 

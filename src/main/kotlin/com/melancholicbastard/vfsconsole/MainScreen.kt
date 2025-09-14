@@ -35,7 +35,7 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // История ввода
+//         История ввода
         Column(
             modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top
@@ -49,7 +49,7 @@ fun MainScreen(
             }
         }
 
-        // Поле ввода
+//         Поле ввода
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -65,7 +65,7 @@ fun MainScreen(
                 onValueChange = viewModel::onInputChange,
                 modifier = Modifier.weight(1f),
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),      // Для работы кнопки ввода ("enter")
                 keyboardActions = KeyboardActions( onDone = { viewModel.onCommandEntered(onExit) } ),
                 textStyle = LocalTextStyle.current.copy(fontFamily = FontFamily.Monospace)
             )
