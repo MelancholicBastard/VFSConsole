@@ -1,0 +1,18 @@
+echo "Text with echo"
+pwd
+ls
+ls -l
+cd documents
+pwd
+ls
+cat readme.txt
+head readme.txt
+head -n 5 readme.txt
+cd subfolder
+pwd
+cat deep_file.txt
+cd /
+pwd
+echo "Trying cd to non-existent dir:"
+cd nonexistent
+exit

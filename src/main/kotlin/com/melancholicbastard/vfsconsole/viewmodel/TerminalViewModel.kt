@@ -157,6 +157,62 @@ class TerminalViewModel {
                 }
             }
 
+            "head" -> {
+                if (args.isEmpty()) {
+                    return CommandResult.Error("head: missing file operand")
+                }
+
+                var linesToShow = 10
+                val filePath: String
+
+                if (args.size >= 2 && args[0] == "-n") {
+                    try {
+                        linesToShow = args[1].toInt()
+                        if (linesToShow < 0) {
+                            return CommandResult.Error("head: invalid number of lines: '${args[1]}'")
+                        }
+//                        Если аргументов меньше положенного (нет пути)
+                        filePath = args.drop(2).firstOrNull() ?: return CommandResult.Error("head: option requires an argument -- 'n'")
+                    } catch (e: NumberFormatException) {
+                        return CommandResult.Error("head: invalid number of lines: '${args[1]}'")
+                    }
+                } else {
+//                     Первый аргумент - либо путь к файлу, либо опция
+                    if (args[0].startsWith("-")) {
+//                         Это -n без числа
+                        if (args[0] == "-n") {
+                            return CommandResult.Error("head: option requires an argument -- 'n'")
+                        }
+//                         Иначе неизвестная опция
+                        return CommandResult.Error("head: invalid option -- '${args[0].removePrefix("-")}'")
+                    } else {
+//                         Первый аргумент - путь к файлу
+                        filePath = args[0]
+                    }
+                }
+
+                val node = vfsNavigator.resolvePath(filePath)
+
+                return when (node) {
+                    null -> CommandResult.Error("head: cannot open '$filePath' for reading: No such file or directory")
+                    is VFSDirectory -> CommandResult.Error("head: error reading '$filePath': Is a directory")
+                    is VFSFile -> {
+                        if (node.isBinary) {
+                            CommandResult.Error("head: error reading '$filePath': Is a binary file")
+                        } else {
+                            try {
+                                val content = node.getContentAsText()
+                                val lines = content.lines()
+                                val headLines = lines.take(linesToShow)
+                                CommandResult.Success(headLines.joinToString("\n"))
+                            } catch (e: IllegalStateException) {
+                                CommandResult.Error("head: error reading '$filePath': ${e.message}")
+                            }
+                        }
+                    }
+                }
+            }
+
             "echo" -> {
 //                 Простая реализация echo
                 CommandResult.Success(args.joinToString(" "))

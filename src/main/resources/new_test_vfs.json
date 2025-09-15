@@ -1,0 +1,41 @@
+{
+  "name": "/",
+  "type": "DIRECTORY",
+  "children": [
+    {
+      "name": "documents",
+      "type": "DIRECTORY",
+      "children": [
+        {
+          "name": "readme.txt",
+          "type": "FILE",
+          "content": "SGVsbG8sIFdvcmxkIQpUaGlzIGlzIGEgdGV4dCBmaWxlLgpJdCBjb250YWlucyBtdWx0aXBsZSBsaW5lcy4KTGluZSA0ClxuTGluZSA2CkxpbmUgNwpMaW5lIDgKTGluZSA5CkxpbmUgMTAKTGluZSAxMQpMaW5lIDEyCkxpbmUgMTMKTGluZSAxNApMaW5lIDE1CkxpbmUgMTYKQW5vdGhlciBwYWdlIQ==",
+          "isBinary": false
+        },
+        {
+          "name": "binary_data.dat",
+          "type": "FILE",
+          "content": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZA==",
+          "isBinary": true
+        },
+        {
+          "name": "subfolder",
+          "type": "DIRECTORY",
+          "children": [
+            {
+              "name": "deep_file.txt",
+              "type": "FILE",
+              "content": "RGVlcCBmaWxlIGNvbnRlbnQuCkNvbnRlbnQgb2YgYSBmaWxlIGluc2lkZSBhIHN1YmZvbGRlci4=",
+              "isBinary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "empty_dir",
+      "type": "DIRECTORY",
+      "children": []
+    }
+  ]
+}
