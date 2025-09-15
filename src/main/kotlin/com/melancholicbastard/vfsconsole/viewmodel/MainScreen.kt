@@ -1,4 +1,4 @@
-package com.melancholicbastard.vfsconsole
+package com.melancholicbastard.vfsconsole.viewmodel
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

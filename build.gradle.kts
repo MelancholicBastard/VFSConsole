@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("jvm") version "2.2.0"
+    kotlin("plugin.serialization") version "2.2.0"
     id("org.jetbrains.compose") version "1.9.0-rc01" // Compose Multiplatform/ Desktop
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
 }
@@ -18,6 +19,8 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation(compose.desktop.currentOs)
+//     Зависимости для сериализации JSON
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }
 
 tasks.test {
@@ -29,7 +32,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "com.melancholicbastard.vfsconsole.MainKt" // Укажите путь к вашей функции main, например, "com.yourcompany.MainKt"
+        mainClass = "com.melancholicbastard.vfsconsole.app.MainKt" // Укажите путь к вашей функции main, например, "com.yourcompany.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Rpm)
             packageName = "VFSConsole"
@@ -47,10 +50,8 @@ tasks.register<JavaExec>("runWithScript") {
     description = "Run the application with script arguments"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "com.melancholicbastard.vfsconsole.MainKt"
-
-//    workingDir = file("src/main/resources")
+    mainClass = "com.melancholicbastard.vfsconsole.app.MainKt"
 
 //     Аргументы командной строки
-    args = listOf("--script", "src/main/resources/test_script.vfs", "--vfs-path", "Console/")
+    args = listOf("--script", "src/main/resources/test_script.vfs", "--vfs-path", "src/main/resources/test_vfs.json")
 }

@@ -1,5 +1,7 @@
 package com.melancholicbastard.vfsconsole
 
+import com.melancholicbastard.vfsconsole.data.AppConfig
+import com.melancholicbastard.vfsconsole.viewmodel.TerminalViewModel
 import java.io.File
 
 // Для выполнения стартовых скриптов
@@ -14,9 +16,19 @@ class ScriptRunner(private val viewModel: TerminalViewModel) {
 
 //         Выводим информацию о местоположении
         viewModel.addOutput("=== VFS Shell Startup Information ===")
-        viewModel.addOutput("VFS path: ${AppConfig.vfsPath}")
+        viewModel.addOutput("ExecFile path: ${AppConfig.execPath}")
         viewModel.addOutput("Working directory: ${AppConfig.workingDir}")
         viewModel.addOutput("Script location: ${scriptFile.absolutePath}")
+        AppConfig.arguments.vfsPath?.let { vfsJsonPath ->
+            val vfsJSONcomment = "VFS JSON source: $vfsJsonPath | "
+            if (AppConfig.vfsRoot != null) {
+                viewModel.addOutput(vfsJSONcomment + "VFS Status: LOADED")
+            } else {
+                viewModel.addOutput(vfsJSONcomment + "VFS Status: FAILED TO LOAD")
+            }
+        } ?: run {
+            viewModel.addOutput("VFS Status: NOT CONFIGURED")
+        }
         viewModel.addOutput("======================================")
         viewModel.addOutput("")
         viewModel.addOutput("=== Executing script: ${scriptFile.name} ===")

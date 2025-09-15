@@ -1,4 +1,4 @@
-package com.melancholicbastard.vfsconsole
+package com.melancholicbastard.vfsconsole.app
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -9,6 +9,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import com.melancholicbastard.vfsconsole.data.AppConfig
+import com.melancholicbastard.vfsconsole.viewmodel.MainScreen
+import com.melancholicbastard.vfsconsole.ScriptRunner
+import com.melancholicbastard.vfsconsole.viewmodel.TerminalViewModel
 
 fun main(args: Array<String>) = application {
 
