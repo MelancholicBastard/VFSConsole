@@ -218,6 +218,55 @@ class TerminalViewModel {
                 CommandResult.Success(args.joinToString(" "))
             }
 
+            "mkdir" -> {
+                if (args.isEmpty()) {
+                    return CommandResult.Error("mkdir: missing operand")
+                }
+                val dirName = args.first()
+//                Создаем в текущей директории
+                when (val result = vfsNavigator.createDirectory(dirName)) {
+                    is VFSOperationResult.Success -> CommandResult.Success("")
+                    is VFSOperationResult.Error -> CommandResult.Error(result.message)
+                }
+            }
+
+            "touch" -> {
+                if (args.isEmpty()) {
+                    return CommandResult.Error("touch: missing file operand")
+                }
+                val fileName = args.first()
+//                Создаем в текущей директории
+                when (val result = vfsNavigator.createFile(fileName)) {
+                    is VFSOperationResult.Success -> CommandResult.Success("")
+                    is VFSOperationResult.Error -> CommandResult.Error(result.message)
+                }
+            }
+
+            "rm" -> {
+                if (args.isEmpty()) {
+                    return CommandResult.Error("rm: missing operand")
+                }
+
+                var recursive = false
+                val targetName: String
+
+                if (args.size >= 2 && (args[0] == "-r" || args[0] == "-R")) {
+                    recursive = true
+                    targetName = args[1]
+                } else {
+//                    Если команда начинается с флага
+                    if (args[0].startsWith("-")) {
+                        return CommandResult.Error("rm: invalid option -- '${args[0].substring(1)}'")
+                    }
+                    targetName = args[0]
+                }
+
+                when (val result = vfsNavigator.remove(targetName, recursive)) {
+                    is VFSOperationResult.Success -> CommandResult.Success("")
+                    is VFSOperationResult.Error -> CommandResult.Error(result.message)
+                }
+            }
+
             "exit" -> CommandResult.Exit
 
             else -> CommandResult.Error("Command not found: $command")

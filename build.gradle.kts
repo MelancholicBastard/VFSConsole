@@ -65,3 +65,13 @@ tasks.register<JavaExec>("runWithScript2") {
 
     args = listOf("--script", "src/main/resources/new_test_script.vfs", "--vfs-path", "src/main/resources/new_test_vfs.json")
 }
+
+tasks.register<JavaExec>("runWithScript3") {
+    group = "application"
+    description = "Run the application with script arguments"
+
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "com.melancholicbastard.vfsconsole.app.MainKt"
+
+    args = listOf("--script", "src/main/resources/new_new_test_script.vfs", "--vfs-path", "src/main/resources/test_vfs.json")
+}

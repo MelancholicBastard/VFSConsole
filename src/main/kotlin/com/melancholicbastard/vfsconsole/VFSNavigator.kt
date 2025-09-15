@@ -166,6 +166,69 @@ class VFSNavigator {
         }
         return VFSOperationResult.Success(outputLines)
     }
+
+    fun createDirectory(dirName: String): VFSOperationResult<Unit> {
+        if (AppConfig.vfsRoot == null) {
+            return VFSOperationResult.Error("VFS is not loaded.")
+        }
+
+        // Проверка, существует ли уже элемент с таким именем
+        if (currentDirectory.getChild(dirName) != null) {
+            return VFSOperationResult.Error("mkdir: cannot create directory '$dirName': File exists")
+        }
+
+        val newDir = VFSDirectory(dirName)
+        currentDirectory.addChild(newDir) // addChild установит parent
+        return VFSOperationResult.Success(Unit)
+    }
+
+//    Создает новый пустой файл в текущей директории.
+    fun createFile(fileName: String): VFSOperationResult<Unit> {
+        if (AppConfig.vfsRoot == null) {
+            return VFSOperationResult.Error("VFS is not loaded.")
+        }
+
+//         Если элемент уже существует, то ничего не делаем
+        if (currentDirectory.getChild(fileName) != null) {
+            return VFSOperationResult.Success(Unit)
+        }
+
+        try {
+//             Создаем файл с пустым содержимым (пустая строка Base64)
+            val newFile = VFSFile(fileName, "", false)
+            currentDirectory.addChild(newFile) // addChild установит parent
+            return VFSOperationResult.Success(Unit)
+        } catch (e: Exception) {
+            return VFSOperationResult.Error("touch: cannot create file '$fileName': ${e.message}")
+        }
+    }
+
+
+//    Удаляет файл или директорию из текущей директории.
+    fun remove(name: String, recursive: Boolean = false): VFSOperationResult<Unit> {
+        if (AppConfig.vfsRoot == null) {
+            return VFSOperationResult.Error("VFS is not loaded.")
+        }
+
+        val nodeToRemove = currentDirectory.getChild(name)
+
+        return when (nodeToRemove) {
+            null -> VFSOperationResult.Error("rm: cannot remove '$name': No such file or directory")
+            is VFSFile -> {
+                currentDirectory.removeChild(nodeToRemove)
+                VFSOperationResult.Success(Unit)
+            }
+            is VFSDirectory -> {
+                if (!recursive && nodeToRemove.children.isNotEmpty()) {
+                    return VFSOperationResult.Error("rm: cannot remove '$name': Directory not empty. Use -r flag to remove recursively.")
+                }
+                // Рекурсивное удаление: удаляем всех потомков в памяти
+                // Сборщик мусора отработает корректно, так как ссылки parent будут очищены
+                currentDirectory.removeChild(nodeToRemove)
+                VFSOperationResult.Success(Unit)
+            }
+        }
+    }
 }
 
 // Результат операции с VFS

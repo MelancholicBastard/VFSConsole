@@ -1,0 +1,14 @@
+# Test script
+ls -la
+exit
+mkdir example
+ls
+rm example
+ls
+mkdir backet
+cd backet
+touch 123
+ls
+cd ..
+rm -r backet
+ls
