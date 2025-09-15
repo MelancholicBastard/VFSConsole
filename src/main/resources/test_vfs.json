@@ -1,0 +1,28 @@
+{
+  "name": "/",
+  "type": "DIRECTORY",
+  "children": [
+    {
+      "name": "documents",
+      "type": "DIRECTORY",
+      "children": [
+        {
+          "name": "readme.txt",
+          "type": "FILE",
+          "content": "SGVsbG8sIFdvcmxkISBUaGlzIGlzIGEgdGV4dCBmaWxlLg==",
+          "isBinary": false
+        },
+        {
+          "name": "data.bin",
+          "type": "FILE",
+          "content": "AQIDBAUGBwgJ"
+        }
+      ]
+    },
+    {
+      "name": "empty_dir",
+      "type": "DIRECTORY",
+      "children": []
+    }
+  ]
+}

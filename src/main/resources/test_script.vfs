@@ -1,6 +1,5 @@
 # Test script
 ls -la
 exit
-cd /home/test
+# cd /home/test
 echo "Testing script execution"
-ls
